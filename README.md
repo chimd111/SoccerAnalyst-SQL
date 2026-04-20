@@ -1,51 +1,168 @@
 # SoccerAnalyst-SQL
 
 ## Requirements
-- Java
-- Microsoft SQL Server
-- JDBC SQL Server driver
 
-## Setup
-1. Create a SQL Server database named `SoccerDB`.
-2. Copy `auth.cfg.example` to `auth.cfg`.
-3. Edit `auth.cfg` with your SQL Server username and password.
-4. Run the program.
-5. From the maintenance menu:
-   - create tables
-   - repopulate database
+* Java (JDK 11+)
+* Microsoft SQL Server (Express is fine)
+* SQL Server Management Studio (SSMS)
+* Microsoft JDBC Driver for SQL Server
 
-## auth.cfg format
-db.host=localhost
-db.port=1433
-db.name=SoccerDB
-db.user=your_username
-db.password=your_password
+---
 
+## Setup Instructions
 
-## How to Run
+### 1. Install SQL Server
 
-1. Install Java and Microsoft SQL Server.
+* Download **SQL Server Express**
+* Install using **Basic setup**
+* Install **SSMS** if prompted
 
-   - [Download **SQL Server 2022 Express Edition** from Microsoft.](https://www.microsoft.com/en-us/download/details.aspx?id=104781)
-   - When you open the installer, choose basic
-   - Complete Installation and install SSMS if prompted (recommended)
+---
 
-2. Create a database named `SoccerDB` in SQL Server.
+### 2. Create the Database
 
-    - New Query then run "CREATE DATABASE SoccerDB;"
-    - Execute (or press F5)
+Open SSMS → New Query → run:
 
-3. In the project root, create `auth.cfg` with:
+```sql
+CREATE DATABASE SoccerDB;
+```
 
+---
+
+### 3. Configure `auth.cfg`
+
+Create a file in the project root:
+
+```properties
 db.host=localhost
 db.port=62201
 db.name=SoccerDB
+```
 
-4. Compile and run the program:
-   javac futbolsoccer.java
-   java futbolsoccer
+> ⚠️ Note: This project uses **Windows Authentication**, not username/password.
 
-5. In the program menu, choose:
-   1. Create Database for new Users
+---
 
-This will create all tables from `sql/schema.txt` and populate them using the SQL files in the `sql/` folder.
+### 4. Add JDBC Driver
+
+Place the following in your project folder:
+
+* `mssql-jdbc-13.4.0.jre11.jar`
+* `mssql-jdbc_auth-13.4.0.x64.dll`
+
+---
+
+### 5. Compile and Run
+
+```bash
+javac -cp ".;mssql-jdbc-13.4.0.jre11.jar" futbolsoccer.java
+java -cp ".;mssql-jdbc-13.4.0.jre11.jar" -Djava.library.path="." futbolsoccer
+```
+
+Or using Makefile:
+
+```bash
+make clean
+make
+make run
+```
+
+---
+
+## First Time Use
+
+When the program starts:
+
+1. Select:
+
+```
+1. Create Database for new Users
+```
+
+2. Type:
+
+```
+CREATE
+```
+
+This will:
+
+* Create all tables
+* Populate data from SQL files in `/sql`
+
+---
+
+## Features
+
+The application provides:
+
+### Raw Data Access
+
+* View all tables with pagination
+
+### Standard Queries
+
+* Top players by market value
+* Clubs with most wins/losses
+* Transfer activity
+* Competition participation
+
+### Advanced Queries
+
+* Squad value vs win percentage
+* Financial health of competitions
+* High-spending clubs with poor performance
+
+### Maintenance Tools
+
+* Delete all data
+* Repopulate database
+
+---
+
+## Notes
+
+* Uses **SQL Server (T-SQL)**
+* Uses **JDBC with integrated security**
+* Requires SQL Server to be running
+* Port (`62201`) must match your SQL Server configuration
+
+---
+
+## Troubleshooting
+
+### "Database connection failed"
+
+* Ensure SQL Server is running
+* Confirm port number in SSMS:
+
+  * SQL Server Configuration Manager → TCP/IP → IPAll → TCP Port
+
+### "Unable to load authentication DLL"
+
+* Make sure:
+
+```
+mssql-jdbc_auth-13.4.0.x64.dll
+```
+
+is in the project root
+
+---
+
+## Project Structure
+
+```
+project/
+│
+├── futbolsoccer.java
+├── auth.cfg
+├── Makefile
+├── mssql-jdbc-13.4.0.jre11.jar
+├── mssql-jdbc_auth-13.4.0.x64.dll
+└── sql/
+    ├── schema.txt
+    ├── *.txt (data files)
+```
+
+---
