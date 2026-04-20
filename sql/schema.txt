@@ -1,0 +1,103 @@
+CREATE TABLE [dbo].[club_games] (
+    [game_id]               INT  NOT NULL,
+    [club_id]               INT  NOT NULL,
+    [own_goals]             INT  NULL,
+    [own_position]          INT  NULL,
+    [own_manager_name]      TEXT NULL,
+    [opponent_id]           INT  NULL,
+    [opponent_goals]        INT  NULL,
+    [opponent_position]     INT  NULL,
+    [opponent_manager_name] TEXT NULL,
+    [hosting]               TEXT NULL,
+    [is_win]                INT  NULL,
+    PRIMARY KEY CLUSTERED ([game_id] ASC, [club_id] ASC)
+);
+
+CREATE TABLE [dbo].[clubs] (
+    [club_id]               INT        NOT NULL,
+    [name]                  TEXT       NULL,
+    [squad_size]            INT        NULL,
+    [average_age]           FLOAT (53) NULL,
+    [foreigners_number]     INT        NULL,
+    [foreigners_percentage] FLOAT (53) NULL,
+    [national_team_players] INT        NULL,
+    [stadium_name]          TEXT       NULL,
+    [stadium_seats]         INT        NULL,
+    [last_season]           INT        NULL,
+    PRIMARY KEY CLUSTERED ([club_id] ASC)
+);
+
+CREATE TABLE [dbo].[competitions] (
+    [competition_id]           VARCHAR (50) NOT NULL,
+    [name]                     TEXT         NULL,
+    [sub_type]                 TEXT         NULL,
+    [type]                     TEXT         NULL,
+    [domestic_league_code]     TEXT         NULL,
+    [confederation]            TEXT         NULL,
+    [is_major_national_league] INT          NULL,
+    PRIMARY KEY CLUSTERED ([competition_id] ASC)
+);
+
+CREATE TABLE [dbo].[countries] (
+    [country_id]   INT  NOT NULL,
+    [country_name] TEXT NULL,
+    PRIMARY KEY CLUSTERED ([country_id] ASC)
+);
+
+CREATE TABLE [dbo].[games] (
+    [game_id]        INT          NOT NULL,
+    [competition_id] VARCHAR (50) NOT NULL,
+    [season]         INT          NULL,
+    [round]          TEXT         NULL,
+    [date]           TEXT         NULL,
+    [attendance]     INT          NULL,
+    [referee]        TEXT         NULL,
+    PRIMARY KEY CLUSTERED ([game_id] ASC)
+);
+
+CREATE TABLE [dbo].[participate] (
+    [player_id]      INT          NOT NULL,
+    [competition_id] VARCHAR (50) NOT NULL,
+    PRIMARY KEY CLUSTERED ([player_id] ASC, [competition_id] ASC)
+);
+
+CREATE TABLE [dbo].[player_valuation] (
+    [player_valuation_id]                 INT          NOT NULL,
+    [player_id]                           INT          NULL,
+    [date]                                TEXT         NULL,
+    [market_value_in_eur]                 INT          NULL,
+    [player_club_domestic_competition_id] VARCHAR (50) NULL,
+    PRIMARY KEY CLUSTERED ([player_valuation_id] ASC)
+);
+
+CREATE TABLE [dbo].[players] (
+    [player_id]                            INT  NOT NULL,
+    [first_name]                           TEXT NULL,
+    [last_name]                            TEXT NULL,
+    [name]                                 TEXT NULL,
+    [last_season]                          INT  NULL,
+    [current_club_id]                      INT  NULL,
+    [date_of_birth]                        TEXT NULL,
+    [sub_position]                         TEXT NULL,
+    [position]                             TEXT NULL,
+    [foot]                                 TEXT NULL,
+    [height_in_cm]                         INT  NULL,
+    [current_club_domestic_competition_id] TEXT NULL,
+    [current_club_name]                    TEXT NULL,
+    [market_value_in_eur]                  INT  NULL,
+    PRIMARY KEY CLUSTERED ([player_id] ASC)
+);
+
+CREATE TABLE [dbo].[transfers] (
+    [transfer_id]         INT  NOT NULL,
+    [player_id]           INT  NULL,
+    [transfer_date]       TEXT NULL,
+    [transfer_season]     TEXT NULL,
+    [from_club_id]        INT  NULL,
+    [to_club_id]          INT  NULL,
+    [transfer_fee]        INT  NULL,
+    [market_value_in_eur] INT  NULL,
+    PRIMARY KEY CLUSTERED ([transfer_id] ASC)
+);
+
+
