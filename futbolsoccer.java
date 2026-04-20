@@ -43,18 +43,17 @@ public class futbolsoccer {
         }
 
         String host = props.getProperty("db.host");
-        String instance = props.getProperty("db.instance");
+        String port = props.getProperty("db.port");
         String dbName = props.getProperty("db.name");
 
-        if (host == null || instance == null || dbName == null
-                || host.trim().isEmpty() || instance.trim().isEmpty() || dbName.trim().isEmpty()) {
+        if (host == null || port == null || dbName == null
+                || host.trim().isEmpty() || port.trim().isEmpty() || dbName.trim().isEmpty()) {
             System.out.println("auth.cfg is missing required values.");
-            System.out.println("Required keys: db.host, db.instance, db.name");
+            System.out.println("Required keys: db.host, db.port, db.name");
             return;
         }
 
-        String connectionUrl = "jdbc:sqlserver://" + host + ";"
-                + "instanceName=" + instance + ";"
+        String connectionUrl = "jdbc:sqlserver://" + host + ":" + port + ";"
                 + "databaseName=" + dbName + ";"
                 + "integratedSecurity=true;"
                 + "encrypt=false;"

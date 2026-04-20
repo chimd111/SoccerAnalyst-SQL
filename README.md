@@ -37,8 +37,8 @@ db.password=your_password
 
 3. In the project root, create `auth.cfg` with:
 
-db.host=localhost\SQLEXPRESS
-db.port=1433
+db.host=localhost
+db.port=62201
 db.name=SoccerDB
 
 4. Compile and run the program:

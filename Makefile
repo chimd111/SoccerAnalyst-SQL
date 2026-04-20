@@ -6,7 +6,7 @@ futbolsoccer.class: futbolsoccer.java
 	javac -cp ".;$(JDBC_JAR)" futbolsoccer.java
 
 run: futbolsoccer.class
-	java -cp ".;$(JDBC_JAR)" futbolsoccer
+	java -cp ".;$(JDBC_JAR)" -Djava.library.path="." futbolsoccer
 
 clean:
 	del /Q futbolsoccer.class 2>nul
